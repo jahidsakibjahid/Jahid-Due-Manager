@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hishab – Personal Finance Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="logo"><span class="mark"></span>Hishab</div>
+    <div class="hello"><b>Hey, Welcome 👋</b><span id="uname"></span></div>
+    <input id="search" class="search" type="search" placeholder="Search transactions…" aria-label="Search transactions">
+    <div class="avatar" id="avatar"></div>
+  </header>
+
+  <aside class="side">
+    <button class="nav on" data-view="dashboard" title="Dashboard" aria-label="Dashboard"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg></button>
+    <button class="nav" data-view="transactions" title="Transactions" aria-label="Transactions"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg></button>
+    <button class="nav" data-view="settings" title="Settings" aria-label="Settings"><svg viewBox="0 0 24 24"><path d="M4 6h10M18 6h2M4 12h2M10 12h10M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg></button>
+  </aside>
+
+  <main>
+    <section id="v-dashboard" class="view on">
+      <div class="stats" id="stats"></div>
+
+      <div class="row r1">
+        <div class="card">
+          <div class="ch"><h3>Your Wallets</h3><div class="arrows"><button id="prev" aria-label="Previous wallet">‹</button><button id="next" aria-label="Next wallet">›</button></div></div>
+          <div id="wallet"></div>
+        </div>
+        <div class="card">
+          <div class="ch"><h3>Transaction Overview</h3><select id="year" aria-label="Year"></select></div>
+          <div class="chart"><canvas id="line"></canvas></div>
+        </div>
+      </div>
+
+      <div class="row r2">
+        <div class="card">
+          <div class="ch"><h3>Expense Breakdown</h3></div>
+          <div class="donutwrap">
+            <ul class="legend" id="legend"></ul>
+            <div class="dcanvas"><canvas id="donut"></canvas><div class="dc"><small>Total Spent</small><b id="dtotal"></b></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><h3>Recent Transactions</h3></div>
+          <ul class="list" id="recent"></ul>
+        </div>
+        <div class="card">
+          <div class="ch"><h3>Smart Insights</h3></div>
+          <ul class="ins" id="insights"></ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ch"><h3>Quick Transaction</h3></div>
+        <form id="form" class="qf">
+          <div class="seg"><button type="button" data-t="expense" class="on">Expense</button><button type="button" data-t="income">Income</button></div>
+          <input id="amt" type="number" min="1" step="any" placeholder="Amount (৳)" required aria-label="Amount">
+          <select id="cat" aria-label="Category"></select>
+          <select id="acct" aria-label="Account"></select>
+          <input id="date" type="date" required aria-label="Date">
+          <input id="note" type="text" placeholder="Note (optional)" aria-label="Note">
+          <button class="btn" type="submit">Add transaction</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="v-transactions" class="view">
+      <div class="card">
+        <div class="ch"><h3>All Transactions <small id="tcount"></small></h3>
+          <div class="filters"><input type="month" id="fmonth" aria-label="Filter by month">
+            <select id="ftype" aria-label="Filter by type"><option value="">All types</option><option value="income">Income</option><option value="expense">Expense</option></select></div>
+        </div>
+        <div class="scroll"><table><thead><tr><th>Date</th><th>Description</th><th>Category</th><th>Account</th><th class="r">Amount</th><th></th></tr></thead><tbody id="tbody"></tbody></table></div>
+      </div>
+    </section>
+
+    <section id="v-settings" class="view">
+      <div class="card narrow">
+        <div class="ch"><h3>Profile</h3></div>
+        <label>Your name<input id="sname" type="text"></label>
+        <label>Opening balance (৳) – money you already had in Cash<input id="sopen" type="number" step="any"></label>
+        <button class="btn" id="ssave">Save changes</button>
+      </div>
+      <div class="card narrow">
+        <div class="ch"><h3>Your data</h3></div>
+        <p class="muted">Data is saved in this browser only. Export a backup regularly.</p>
+        <div class="btns">
+          <button class="btn ghost" id="export">Export backup</button>
+          <label class="btn ghost">Import backup<input id="import" type="file" accept="application/json" hidden></label>
+          <button class="btn ghost" id="sample">Load sample data</button>
+          <button class="btn danger" id="reset">Delete all data</button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<div id="toast" role="status"></div>
+<script src="app.js"></script>
+</body>
+</html>
